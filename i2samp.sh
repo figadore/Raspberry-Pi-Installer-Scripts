@@ -403,6 +403,13 @@ pcm.speakerbonnet {
    type hw card 0
 }
 
+pcm.mic {
+   type plug
+   slave {
+      pcm "hw:1,0"
+   }
+}
+
 pcm.dmixer {
    type dmix
    ipc_key 1024
@@ -433,8 +440,12 @@ ctl.softvol {
 }
 
 pcm.!default {
-    type             plug
-    slave.pcm       "softvol"
+    type             asym
+    capture.pcm       "mic"
+    playback.pcm {
+      type             plug
+      slave.pcm       "softvol"
+    }
 }
 EOL
 
